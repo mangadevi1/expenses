@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div class="container my-4 p-4 bg-white rounded shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 text-dark">Categories</h5>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#addCategoryDrawer">Add Category</button>
+  </div>
+
+  <!-- Categories Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Category Name</th>
+          <th>Description</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+        <tr>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td class="text-center">
+            <a href="#" class="btn btn-sm btn-outline-success me-2">✏️</a>
+            <a href="#" class="btn btn-sm btn-outline-danger">🗑️</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center text-muted">No Categories found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- Category Offcanvas Form -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addCategoryDrawer">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Add Category</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Category Name</label>
+        <input type="text" name="name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" rows="3" class="form-control"></textarea>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="offcanvas">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
